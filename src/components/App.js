@@ -17,6 +17,7 @@ class App extends React.Component {
   }
   change(rowskey, columnkey) //指定行列的內容改成"X"
   {
+    alert('開始改變')
     const history = this.state.history;
     history[rowskey][columnkey].value = "X"
     this.setState({history})
@@ -28,7 +29,7 @@ class App extends React.Component {
       <Board 
         history= {history} 
         className='board' 
-        change={change}
+        onClick={(rowskey, columnkey) => change(rowskey, columnkey)}
       />
     );
   }    
