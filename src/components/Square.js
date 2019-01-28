@@ -2,11 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Square = ({ value='none', className='square', onClick}) =>
-  {
-    return <button className={className} onClick={onClick}>
+  <button className={className} onClick={onClick}>
         {value}
-      </button>;
-  }
+  </button>
 
 export default Square
 

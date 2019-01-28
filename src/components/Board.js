@@ -3,22 +3,22 @@ import React from 'react'
 import Square from './Square'
 import PropTypes from 'prop-types'
 
-const Row = ({rows , onclick}) =>
+const Row = ({rows , change}) =>
   {
     return rows.map((columns , columnkey ) =>
       <Square 
         className={columns.classname}
         value={columns.value}
         key={columnkey}
-        onclick={() => onclick(columnkey)}
+        onClick={() => change(columnkey)}
       />
       );
   }
-const Board = ({ history , className='board', onClick}) =>
+const Board = ({ history , className='board', change=f=>f}) =>
   {
     return history.map((rows, rowskey) =>
       <div className="board-row" key={rowskey}>
-        <Row rows={rows} onclick={(columnkey) => onclick(rowskey, columnkey)} />
+        <Row rows={rows} change={(columnkey) => change(rowskey, columnkey)} />
       </div>
       );
   };
