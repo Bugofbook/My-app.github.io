@@ -1,5 +1,4 @@
 import React from 'react'
-//import { Square } from './Square'
 import Square from './Square'
 import PropTypes from 'prop-types'
 
@@ -14,18 +13,18 @@ const Row = ({rows , change}) =>
       />
       );
   }
-const Board = ({ history , className='board', change=f=>f}) =>
+const Board = ({ Squares , className='board', change=f=>f}) =>
   {
-    return history.map((rows, rowskey) =>
+    return Squares.map((rows, rowskey) =>
       <div className="board-row" key={rowskey}>
         <Row rows={rows} change={(columnkey) => change(rowskey, columnkey)} />
       </div>
       );
   };
 export default Board
-      
+
 Board.propTypes = {
-  history: PropTypes.array,
+  Squares: PropTypes.array,
   className: PropTypes.string,
   onClick : PropTypes.func
 }
