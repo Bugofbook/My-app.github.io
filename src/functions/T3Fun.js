@@ -1,12 +1,5 @@
-import  {SetSquareValue, SetSquareLock, SetSquareOwner } from './gamebasics'
+import  {CheckSquareValue} from './gamebasics'
 // push chessman into square
-export const SquareSet = (Nowplayer) =>
-{
-    if (Nowplayer === "Player1" )
-        return {value: "O" , lock: true }
-    else
-        return {value: "X" , lock: true }
-}
 export const ChangePlayer = (Nowplayer) =>
 {
     if (Nowplayer === "Player1" )
@@ -14,83 +7,48 @@ export const ChangePlayer = (Nowplayer) =>
     else
         return "Player1"
 }
-//push chessman by array
-export const SquaresChangeByArray = Activity => ChangeArray => NowSquares =>
-{
-    if (ChangeArray.length === 0) {
-        return NowSquares
+//find length 
+export const FindLength = (VectorX, VectorY) => length => (CurrentPoint , NowSquares) => {
+    let contilen = 1
+    let CheckValue = CheckSquareValue(NowSquares[CurrentPoint.x][CurrentPoint.y].value)
+    let lengthx = NowSquares.length
+    for (let i = 1 ; i < length ; i++) {
+        let tapointx = CurrentPoint.x - i * VectorX
+        let tapointy = CurrentPoint.y - i * VectorY
+        if ( tapointx >= 0 && tapointx < lengthx && tapointy >= 0 && tapointy < NowSquares[tapointx].length){
+            contilen += CheckValue(NowSquares[tapointx][tapointy])
+        }
+        else{
+            break
+        }
     }
-    else {
-        ChangeArray.map( Change => {
-            if (Activity === "ADD"){
-                NowSquares[Change.x][Change.y] = compose(
-                    SetSquareValue(Change.value),
-                    SetSquareOwner(Change.owner),
-                    SetSquareLock(true)
-                )(NowSquares[Change.x][Change.y])
-            }
-            else if(Activity === "REMOVE"){
-                NowSquares[Change.x][Change.y] = compose(
-                    SetSquareValue(""),
-                    SetSquareOwner(""),
-                    SetSquareLock(false)
-                )(NowSquares[Change.x][Change.y])
-            }
-            else {
-                console.log("NO Set activity ")
-            }
-            return Change
-        })
-        return NowSquares
+    for (let j = 1 ; j< length ; j ++) {
+        let tapointx = CurrentPoint.x + j * VectorX
+        let tapointy =  CurrentPoint.y + j * VectorY
+        if ( tapointx >= 0 && tapointx < lengthx && tapointy >= 0 && tapointy < NowSquares[tapointx].length){
+            contilen += CheckValue(NowSquares[tapointx][tapointy])
+        }
+        else{
+            break
+        }
     }
+    return contilen
 }
-/*
-export const SquaresChangePoint = (NowSquares, ChangeArray) =>
+//find maxlength for row,Column ,Slash or BackSlash by Currying
+export const Rowlength = FindLength(1,0) 
+export const Columnlength = FindLength(0,1)
+export const Slashlength = FindLength(1,1)
+export const BackSlashlength = FindLength(1,-1)
+//judge length exist
+export const JudgeWinner = length => (CurrentPoint , Squares) =>
 {
-    let NextSquares = SquaresDeepCopy(NowSquares)
-    for (let i = 0 , ilen = ChangeArray.length ; i < ilen ; i++ )
-    {
-        if ( ChangeArray[i][0] === "ADD")
-            NextSquares[ChangeArray[i][2]][ChangeArray[i][3]] = SquareSet(ChangeArray[i][1])
-        else
-            NextSquares[ChangeArray[i][2]][ChangeArray[i][3]] = {value: "" , lock: false}
-    }
-    return NextSquares
-}
-*/
-//
-export const JudgeWinner = (Squares, rowskey, columnkey) =>
-{
-    let TargetValue = Squares[rowskey][columnkey].value
-    let ColArray = MakeColArray(Squares, columnkey)
-    let RowArray = MakeRowArray(Squares,rowskey)
-    if (JudgeArrayIs(ColArray , TargetValue ))
-        return true
-    else if (JudgeArrayIs(RowArray , TargetValue ))
-        return true
-    else
-        return false
-}
-export const RestrictArray = ( Player , Array , Point,limit) =>
-{
-    let NewArray = [], AddArray = [] , DelArray = [] ;
-    
-    if (Array.length < limit)
-    {
-        NewArray = [...Array,Point]
-        AddArray = ["ADD", Player , Point[0],Point[1]]
-        return [NewArray, AddArray]
-    }
-    else
-    {
-        DelArray = ["DEL", Player , Array[0][0],Array[0][1]]
-        NewArray = [Array.filter((value,index) => (index !== 0) ),Point]
-        AddArray = ["ADD", Player , Point[0],Point[1]]
-        return [NewArray,DelArray,AddArray]        
-    }
+    return  Rowlength(length)(CurrentPoint,Squares) >= length || 
+    Columnlength(length)(CurrentPoint,Squares) >= length ||
+    Slashlength(length)(CurrentPoint,Squares) >= length  ||
+    BackSlashlength(length)(CurrentPoint,Squares) >= length 
 }
 // ============
-const SquaresDeepCopy = (Squares) =>     //雙層深拷貝。是說，有沒有更好的寫法?
+export const SquaresDeepCopy = (Squares) =>     //雙層深拷貝。是說，有沒有更好的寫法?
 {
     let CopySquares = []
     for (let i = 0, ilen = Squares.length ; i < ilen ; i++ )
@@ -103,31 +61,4 @@ const SquaresDeepCopy = (Squares) =>     //雙層深拷貝。是說，有沒有�
         }
     }
     return CopySquares
-}
-const MakeColArray = (squares, Col) =>
-{
-    let ColArray = []
-    for (let i = 0 , ilen = squares.length ; i < ilen ; i++)
-    {
-        ColArray[i] = Object.assign({},squares[i][Col])
-    }
-    return ColArray
-}
-const MakeRowArray = (squares, Row) =>
-{
-    let RowArray = []
-    for (let i = 0 , ilen = squares.length ; i < ilen ; i++)
-    {
-        RowArray[i] = Object.assign({},squares[Row][i])
-    }
-    return RowArray
-}
-const JudgeArrayIs = (Array , Value ) =>
-{
-    for (let i = 0, ilen = Array.length ; i < ilen ; i++)
-    {
-        if (Array[i].value !== Value )
-            return false
-    }
-    return true
 }
