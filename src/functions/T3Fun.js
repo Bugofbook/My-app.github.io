@@ -1,3 +1,5 @@
+import  {SetSquareValue, SetSquareLock, SetSquareOwner } from './gamebasics'
+// push chessman into square
 export const SquareSet = (Nowplayer) =>
 {
     if (Nowplayer === "Player1" )
@@ -12,6 +14,37 @@ export const ChangePlayer = (Nowplayer) =>
     else
         return "Player1"
 }
+//push chessman by array
+export const SquaresChangeByArray = Activity => ChangeArray => NowSquares =>
+{
+    if (ChangeArray.length === 0) {
+        return NowSquares
+    }
+    else {
+        ChangeArray.map( Change => {
+            if (Activity === "ADD"){
+                NowSquares[Change.x][Change.y] = compose(
+                    SetSquareValue(Change.value),
+                    SetSquareOwner(Change.owner),
+                    SetSquareLock(true)
+                )(NowSquares[Change.x][Change.y])
+            }
+            else if(Activity === "REMOVE"){
+                NowSquares[Change.x][Change.y] = compose(
+                    SetSquareValue(""),
+                    SetSquareOwner(""),
+                    SetSquareLock(false)
+                )(NowSquares[Change.x][Change.y])
+            }
+            else {
+                console.log("NO Set activity ")
+            }
+            return Change
+        })
+        return NowSquares
+    }
+}
+/*
 export const SquaresChangePoint = (NowSquares, ChangeArray) =>
 {
     let NextSquares = SquaresDeepCopy(NowSquares)
@@ -24,6 +57,8 @@ export const SquaresChangePoint = (NowSquares, ChangeArray) =>
     }
     return NextSquares
 }
+*/
+//
 export const JudgeWinner = (Squares, rowskey, columnkey) =>
 {
     let TargetValue = Squares[rowskey][columnkey].value

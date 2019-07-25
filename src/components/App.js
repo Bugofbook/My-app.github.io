@@ -20,15 +20,19 @@ class App extends React.Component {
     }
     this.change = this.change.bind(this)
   }
-  change(rowskey, columnkey) //指定行列的內容改成"X"
+  change(rowskey, columnkey) //click to square 
   {
+    // catch info
     const {Squares: NowSquares , Player: NowPlayer , Player1Array ,Player2Array } = this.state;
     let {Winner} = this.state
     let [ NextArray , ...ChangeArray ] = RestrictArray( NowPlayer , (NowPlayer === "Player1") ? Player1Array : Player2Array ,[rowskey, columnkey],6)
+    // change square
     const NextSquares = SquaresChangePoint(NowSquares, ChangeArray)
+    // judge winner
     if (JudgeWinner(NextSquares, rowskey, columnkey))
       Winner = NowPlayer
-    this.setState({
+    // push info
+      this.setState({
       Player : ChangePlayer(NowPlayer),
       Winner : Winner,
       Squares: NextSquares,

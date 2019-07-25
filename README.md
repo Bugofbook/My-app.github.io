@@ -43,8 +43,8 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-## Open Personal Page
+## `Open Personal Page`
 
 https://bugofbook.github.io/My-app/#/
 
-## Build Personal Page
+## `Build Personal Page`
