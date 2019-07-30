@@ -10,11 +10,11 @@ export const ChangePlayer = (Nowplayer) =>
 //find length 
 export const FindLength = (VectorX, VectorY) => length => (CurrentPoint , NowSquares) => {
     let contilen = 1
-    let CheckValue = CheckSquareValue(NowSquares[CurrentPoint.x][CurrentPoint.y].value)
+    let CheckValue = CheckSquareValue(CurrentPoint.value)
     let lengthx = NowSquares.length
     for (let i = 1 ; i < length ; i++) {
-        let tapointx = CurrentPoint.x - i * VectorX
-        let tapointy = CurrentPoint.y - i * VectorY
+        let tapointx = CurrentPoint.rowkey - i * VectorX
+        let tapointy = CurrentPoint.columnkey - i * VectorY
         if ( tapointx >= 0 && tapointx < lengthx && tapointy >= 0 && tapointy < NowSquares[tapointx].length){
             contilen += CheckValue(NowSquares[tapointx][tapointy])
         }
@@ -23,8 +23,8 @@ export const FindLength = (VectorX, VectorY) => length => (CurrentPoint , NowSqu
         }
     }
     for (let j = 1 ; j< length ; j ++) {
-        let tapointx = CurrentPoint.x + j * VectorX
-        let tapointy =  CurrentPoint.y + j * VectorY
+        let tapointx = CurrentPoint.rowkey + j * VectorX
+        let tapointy =  CurrentPoint.columnkey + j * VectorY
         if ( tapointx >= 0 && tapointx < lengthx && tapointy >= 0 && tapointy < NowSquares[tapointx].length){
             contilen += CheckValue(NowSquares[tapointx][tapointy])
         }
@@ -62,5 +62,3 @@ export const SquaresDeepCopy = (Squares) =>     //雙層深拷貝。是說，有
     }
     return CopySquares
 }
-
-

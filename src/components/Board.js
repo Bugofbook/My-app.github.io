@@ -13,9 +13,11 @@ const Row = ({rows , change}) =>
       />
       );
   }
-const Board = ({ Squares , className='board', change=f=>f}) =>
+const Board = ({ Squares=[] , className='board', change=f=>f}) =>
   {
-    return Squares.map((rows, rowskey) =>
+    return (Squares.length === 0) ?
+    <div>No Board</div> :
+    Squares.map((rows, rowskey) =>
       <div className="board-row" key={rowskey}>
         <Row rows={rows} change={(columnkey) => change(rowskey, columnkey)} />
       </div>

@@ -49,7 +49,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## `Open Personal Page`
 
-https://bugofbook.github.io/My-app/#/
+https://bugofbook.github.io/My-app/#/ 
 
 ## `Build Personal Page`
 

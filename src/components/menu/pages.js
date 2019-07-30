@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../App'
+import { App} from '../contain/tioteotic'
 import { Link } from 'react-router-dom'
 import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
