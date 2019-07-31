@@ -1,8 +1,8 @@
-import { TioTeoTic1 } from "../ui/App1";
 import { connect } from 'react-redux';
 import { AddList, DelList, ClearList } from "../../redux/actions/ListAction";
 import { SetChess, CreateSquares } from "../../redux/actions/SquareAction";
-import { ChangePlayer, SetEndstate, SetBeginstate } from "../../redux/actions/InforAction";
+import { ChangePlayer, SetEndstate, SetBeginstate } from "../../redux/actions/InfoAction";
+import { TioTeoTicform } from "../ui/TioteoTic";
 
 const mapStateToProps = state => ({
 	squares: state.Squares,
@@ -40,4 +40,4 @@ const mapDispatchToProps = dispatch => ({
 export const App = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(TioTeoTic1)
+)(TioTeoTicform)

@@ -1,23 +1,14 @@
 ## components
 
-defination all component 
-
-* mean
-
+defination all component for UI by React.js
 
 ## functions
 
-defination all javascript function 
-
-* gamebasics.js
-* T3fun.js
+defination all javascript function for constructe components
 
 ## reducers
 
 definate and constructe javascript function for Redux.js and React-redux.js
-
-* constants.js
-* reducers.js
 
 ## stylesheets
 

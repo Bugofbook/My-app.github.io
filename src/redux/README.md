@@ -1,32 +1,20 @@
-# reducers
+# redux
 
 constructe reducers and store by redux.js
 
+## actions
+
+defination all action for store
+
+## reducers
+
+defination all reducer for store
+
 ## constants.js
 
-defination type of actions for reduces of Redux
+defination type of actions for reduces of Redux and action of Redux
 
 ## store.js
 
-defination store
+constrcte store
 
-## info.js
-
-defination reducer of game info
-
-info:{gamestate:"begin game" , nowplayer:"player1", winner:[], loser:[], row:3, column:3}
-
-## list.js
-
-defination reducer of saving point-history 
-
-lists:[list,list]
-list:{column:1,row:1,owner:"player1",value:"A"}
-
-## Squares.js
-
-defination reducer of Squares
-
-squares:[rowsquare,rowsquare]
-rowsquare:[columnsquare,columnsquare]
-columnsquare:{owner:"player1",value:"A",lock:true}

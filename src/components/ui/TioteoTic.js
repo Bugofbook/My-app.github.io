@@ -1,9 +1,10 @@
 import React from 'react'
-import Board from '../Board'
+import PropTypes from 'prop-types';
+import Board from './Board'
 import { JudgeWinner } from '../../functions/T3Fun'
 import '../App.css'
 
-export const TioTeoTic1 = ({squares,list,info,addlist=f=>f,dellist=f=>f,addchess=f=>f,changeplayer=f=>f,endgame=f=>f,begingame=f=>f,beginboard=f=>f,clearlist=f=>f}) => {
+export const TioTeoTicform = ({squares,list,info,addlist=f=>f,dellist=f=>f,addchess=f=>f,changeplayer=f=>f,endgame=f=>f,begingame=f=>f,beginboard=f=>f,clearlist=f=>f}) => {
   const delPoint = (List) => {
     if ( List.length >= 6 ) {
       let OldPoint = List[0]
@@ -70,3 +71,17 @@ export const TioTeoTic1 = ({squares,list,info,addlist=f=>f,dellist=f=>f,addchess
 // ========================================
 
 const TTTJudge = JudgeWinner(3)
+
+TioTeoTicform.propTypes = {
+  squares: PropTypes.array,
+  list: PropTypes.array,
+  info: PropTypes.object,
+  addlist: PropTypes.func,
+  dellist: PropTypes.func,
+  addchess: PropTypes.func,
+  changeplayer: PropTypes.func,
+  endgame: PropTypes.func,
+  begingame: PropTypes.func,
+  beginboard: PropTypes.func,
+  clearlist: PropTypes.func
+}
