@@ -1,8 +1,9 @@
 import React from 'react';
-import { App} from '../contain/tioteotic'
 import { Link } from 'react-router-dom'
 import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
+import { App} from '../contain/tioteotic'
+import { OthelloGame } from "../contain/othello";
 
 const PageTemplate = ({children}) =>
     <div className="page">
@@ -30,7 +31,7 @@ export const TicTacToe = () =>
 export const Othello = () =>
     <PageTemplate>
     <section className="game" >
-        <h1>[黑白棋]</h1>
+        <OthelloGame />
     </section>
     </PageTemplate>
 
