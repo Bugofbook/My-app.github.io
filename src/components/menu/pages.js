@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
-import { App} from '../contain/tioteotic'
+//import { App} from '../contain/tioteotic'
+import { App } from "../ui/TioTeoTicnew";
 import { OthelloGame } from "../contain/othello";
 
 const PageTemplate = ({children}) =>
