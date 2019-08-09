@@ -1,15 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Squares } from "./reducers/Squares";
-import { Lists } from "./reducers/List";
-import { Info } from "./reducers/Info";
-import { RowStyle, ColumnStyle } from "./reducers/squarestyle";
+import {playerData  } from "./reducers/PlayerDataReducers";
+import { gameDatas } from "./reducers/GameDataReducer";
 
 const initialDate ={
-	Squares:[],
-	List:[],
-	Info:{},
-	rowstyle:[],
-	columnstyle:[]
+	gameDatas:[],
+	playerData:{},
 }
 
 const logger = store => next => action => {
@@ -31,7 +26,7 @@ const saver = store => next => action => {
 
 export const storeFactory = (initialState = initialDate ) =>(
 	applyMiddleware(logger, saver)(createStore)(
-		combineReducers({Squares, Lists, Info, RowStyle, ColumnStyle}) ,
+		combineReducers({gameDatas, playerData}) ,
 		(localStorage['redux-store']) ?
 		JSON.parse(localStorage['redux-store']) :
 		initialState

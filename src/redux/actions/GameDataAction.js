@@ -1,10 +1,11 @@
 import { GAMEDATA } from "../constants";
+import { v4 } from 'uuid';
 
-export const AddGameData = (id,gamename,date,chesshistory) => ({
+export const AddGameData = (gamename,chesshistory) => ({
 	type: GAMEDATA.ADD_GAMEDATA,
-	id,
+	id: v4(),
 	gamename,
-	date,
+	date: new Date(),
 	chesshistory,
 })
 

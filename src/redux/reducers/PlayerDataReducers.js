@@ -1,6 +1,6 @@
 import { PLAYERDATA } from "../constants"
 
-export const PlayerData = (state = {}, action) => {
+export const playerData = (state = {}, action) => {
 	switch (action.type) {
 		case PLAYERDATA.RE_NAME:
 			return {

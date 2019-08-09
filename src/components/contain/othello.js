@@ -1,9 +1,9 @@
 import { compose } from 'redux';
- import { GamePage } from "./page";
+ import { GamePage } from "../ui/page";
 import { SquaresDeepCopy ,  addChessToLists, setChessToSquares} from "../../functions/gamebasics";
 import { calculationArrays } from "../../functions/catchgame";
 
-export class OthelloGame extends GamePage {
+export class OthelloForm extends GamePage {
 	mainchange = (rowskey, columnskey) => {
 		const history = this.state.history.slice(0, this.state.gameinfo.turns + 1);
 		const current = history[history.length - 1];

@@ -1,6 +1,6 @@
 import { GAMEDATA } from "../constants";
 
-export const GameData = (state = [], action) => {
+export const gameData = (state = [], action) => {
 	switch (action.type) {
 		case GAMEDATA.ADD_GAMEDATA:
 			return [{
@@ -14,10 +14,10 @@ export const GameData = (state = [], action) => {
 	}
 }
 
-export const GameDatas = (state = [] , action) => {
+export const gameDatas = (state = [] , action) => {
 	switch (action.type) {
 		case GAMEDATA.ADD_GAMEDATA:
-			return state.concat(GameData([],action))
+			return state.concat(gameData([],action))
 		case GAMEDATA.DEL_GAMEDATA:
 			return state.filter((data) => data.id !== action.id)
 		default:

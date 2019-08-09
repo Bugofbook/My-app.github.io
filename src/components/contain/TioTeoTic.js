@@ -1,10 +1,10 @@
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import { GamePage } from "./page";
+import { GamePage } from "../ui/page";
 import { SquaresDeepCopy } from "../../functions/gamebasics";
 import { TTTSJudge, addNewChess, removeOldChess,  } from '../../functions/connectgame'
 
-export class TioTeoTicGame extends GamePage {
+export class TioTeoTicForm extends GamePage {
 	mainchange = (rowskey, columnskey) => {
 		const history = this.state.history.slice(0, this.state.gameinfo.turns + 1);
     const current = history[history.length - 1];
@@ -66,7 +66,7 @@ export class TioTeoTicGame extends GamePage {
 
 // ========================================
 
-TioTeoTicGame.propTypes = {
+TioTeoTicForm.propTypes = {
   squares: PropTypes.array,
   list: PropTypes.array,
   info: PropTypes.object,

@@ -9,6 +9,9 @@ export 	class  GamePage extends React.Component {
 		super(props);
 		this.state =  this.props.initialstate
 		this.mainchange = this.mainchange.bind(this)
+		this.loadingdata = this.loadingdata.bind(this)
+		this.adddata = this.props.adddata
+		this.deldata = this.props.deldata		
 	}
 	mainchange = () => {
 		// Need compoent to make 
@@ -28,6 +31,11 @@ export 	class  GamePage extends React.Component {
 			}}
 			)
 		}
+	// 
+	loadingdata = (gamedata) => {
+		window.setTimeout(( () => this.jumpto(0) ), 0)
+		gamedata.chesshistory.reduce((_previousValue,action,index) => window.setTimeout(( () => this.mainchange(action.rowskey, action.columnskey) ), 1000 * index + 1000), 0)
+	}
 	render() {
 		const history = this.state.history
 		const info = this.state.gameinfo
@@ -55,18 +63,41 @@ export 	class  GamePage extends React.Component {
 					return `${info[current.nowplayer]} ,  Please push your Chess`
 				}
 			}
+			const localstore = this.props.localstore
+			const showlocalstore = (store) =>{
+				if (store.length === 0)
+					return <p>No Local Save</p>
+				return <ol>{store.map((gamedata,index) => 
+					<li>
+					<input type="bottom" value="X" style={{width: 15 }}  onClick={() => this.deldata(gamedata.id)} />
+					<input type="bottom" value={`Time: ${gamedata.date.toLocaleString('zh-cn')} `} onClick={() => this.loadingdata(gamedata)} />
+					</li>
+				)}</ol>
+			}
+			const showsavebottom = (info) => {
+				return (info.gamestate === "Game End") ?
+				<input type="bottom" value="Save Result" onClick={() => this.adddata(info.gamename,info.actionlists)} /> :
+				<p></p>
+			}
 			return (
 				<div>
+				<div>
+				<h1>{info.gamename}</h1>
+				<h2>{showgamestate(info,current)}</h2>
 				<Board 
 				Squares= {current.squares} 
 				className='board' 
 				change={(rowskey, columnskey) => this.mainchange(rowskey, columnskey)}
 				/>
-				<div className="game-info" >
-				<p>{showgamestate(info,current)}</p>
-				<ol>{steps}</ol>
+				</div>
+					<div className="game-info" >
+						<h2>Game Step</h2>
+						{showsavebottom(info)}
+						<ol>{steps}</ol>
 				</div>
 				<div className="game-bottons">
+				<h2>Local Save</h2>
+					{showlocalstore(localstore)}
 				</div>
 				</div>
 				)
