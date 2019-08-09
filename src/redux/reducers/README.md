@@ -1,32 +1,19 @@
-## Info.js
+## GameDataReducers.js
 
-defination reducer of game info
+defination reducer of GameData
 
-* Info:{}
-  * gamestate:""
-	* nowplayer:""
-	* winner:""
-	* loser:""
-	* row:number
-	* column:number
+* GameDatas:[]
+  * gamestate:{}
+		* id: number
+    * gamename:string
+		* date:date
+		* chesshistory:[]
 
-## list.js
+## PlayerDataReducers.js
 
-defination reducer of saving point-history 
+defination reducer of PlayerData
 
-* Lists:[]
-  * list:{}
-    * column:number
-		* row:number
-		* owner:""
+* PlayerData
+  * player1:string
+	* player2:string
 
-## Squares.js
-
-defination reducer of Squares
-
-* Squares:[]
-  * rowsquare:[]
-	   * columnsquare:{}
-		     * value:""
-				 * owner:""
-				 * lock:boolen 
