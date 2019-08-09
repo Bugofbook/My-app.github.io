@@ -4,7 +4,8 @@ import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
 //import { App} from '../contain/tioteotic'
 import { App } from "../ui/TioTeoTicnew";
-import { OthelloGame } from "../contain/othello";
+//import { OthelloGame } from "../contain/othello";
+import { OthelloGame } from "../ui/Othello";
 
 const PageTemplate = ({children}) =>
     <div className="page">

@@ -107,7 +107,8 @@ export class App extends React.Component {
 			gameinfo: {
 				...this.state.gameinfo,
 				turns: step,
-				actionlists: this.state.gameinfo.actionlists.slice(0, step + 1)
+				actionlists: this.state.gameinfo.actionlists.slice(0, step + 1),
+				gamestate: "Game Playing"
 			}}
 		)
 	}

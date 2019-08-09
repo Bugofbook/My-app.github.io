@@ -1,111 +1,221 @@
 import React from 'react'
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import Board from './Board'
 import '../App.css'
+import { SquaresDeepCopy ,  addChessToLists, setChessToSquares} from "../../functions/gamebasics";
+import { calculationArrays } from "../../functions/catchgame";
 
-export const Othelloform = ({squares,list,info,addlist=f=>f,addchess=f=>f,changeplayer=f=>f,endgame=f=>f,begingame=f=>f,beginboard=f=>f,clearlist=f=>f}) => {
-  const Clickchange = (rowkey, columnkey) => {
-    if (squares[rowkey][columnkey].lock === true || info.gamestate === "Game End")
-      return
-    let newpoint = {
-      rowkey: rowkey,
-      columnkey: columnkey,
-      value: (info.player === "player1") ? "O" : "X",
-      owner: info.player,
-    }
-    addPoint(newpoint)
-    OrganizeBoard(newpoint, squares)
-    endturn(list)
+export class OthelloGame extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state =  {
+			history: [{
+				squares : Array(8).fill(Array(8).fill({value:"", owner:"", lock: false})), // construct 3* 3 squares 
+				player1chess:  0,
+				player2chess:  0,
+				nowplayer: "player1"
+			}],
+			gameinfo:{
+				gamename: "Othello",
+				gamestate: "Game Begin",
+				player1: "Tom",
+				player2: "Jerry",
+				winner: "",
+				loser:"",
+				turns: 0,
+				actionlists:[],
+			},
+		}
+		this.change = this.change.bind(this)
+		this.clear = this.clear.bind(this)
+	}
+  change = (rowskey, columnskey) => {
+		const history = this.state.history.slice(0, this.state.gameinfo.turns + 1);
+		const current = history[history.length - 1];
+		const player = current.nowplayer
+		const info = this.state.gameinfo
+		let newsquares = SquaresDeepCopy(current.squares);
+		// check broad is lock
+    if (newsquares[rowskey][columnskey].lock === true || info.gamestate === "Game End")
+			return
+		// construct new chess
+		const  newchess = {
+			rowskey: rowskey,
+      columnskey: columnskey,
+      value: (player === "player1") ? "O" : "X",
+			owner: player,
+			lock: true,
+		}
+		// use compose function( from redux,js) to processing state, and get new state
+		let processobject = compose(
+			JudgeGame,
+			organizeBoard,
+			addNewChess,
+	)({
+		squares: newsquares,
+		player1chess: current.player1chess,
+		player2chess: current.player2chess,
+		actionlists: info.actionlists.slice(),
+		chess: newchess,
+		gamestate: info.gamestate,
+	})
+		// set state
+		let winner = ""
+		let loser = ""
+		if (processobject.gamestate === "Game End") {
+			if (processobject.player1chess > processobject.player2chess) {
+				winner = "player1"
+				loser = "player2"
+			}
+			else if (processobject.player2chess > processobject.player1chess) {
+				winner = "player2"
+				loser = "player1"
+			}
+			else {
+				winner = "No Winner"
+				loser = "No Loser"
+			}}
+		this.setState({
+			history: history.concat([
+				{
+					squares: processobject.squares,
+					player1chess:  processobject.player1chess,
+					player2chess:  processobject.player2chess,	
+					nowplayer: (player === "player1") ? "player2" : "player1"
+				}]),
+			gameinfo: {
+				...info,
+				actionlists: processobject.actionlists,
+				turns: info.turns + 1,
+				gamestate: processobject.gamestate,
+				winner: winner,
+				loser: loser,
+			},
+		})
   }
-  const addPoint = (point) => {
-    addlist(point.owner, point.value, point.rowkey, point.columnkey)
-    addchess(point.value, point.owner, true, point.rowkey, point.columnkey)
-  }
-  const OrganizeBoard = (point, squares) => {
-    const changeArrays = calcArrays(point, squares)
-    changeBoard(point,changeArrays)
-  }
-  const calcArrays = (point ={}, squares = []) => {
-    let resultArray = []
-    let targetvalue = point.value
-    let lengthx = squares.length
-    for (let i = 0 ; i < 9 ; i++) {
-      let vec = [Math.floor( i / 3) - 1 ,(i % 3) - 1]
-      resultArray[i] = []
-      if (vec === [0,0]) {
-        continue
-      }
-      for (let j = 1, jth = lengthx ; j < jth ; j ++) {
-        let tapointx = point.rowkey + vec[0] * j
-        let tapointy = point.columnkey + vec[1] * j
-        let tavalue = ""
-        if ( tapointx >= 0 && tapointx < lengthx && tapointy >= 0 && tapointy < squares[tapointx].length) {
-          tavalue = squares[point.rowkey + vec[0] * j][point.columnkey + vec[1] * j].value
-        }
-        if (tavalue === "") {
-          resultArray[i] = []
-          break
-        }
-        else if (tavalue === targetvalue) {
-          break
-        }
-        else if (tavalue !== targetvalue) {
-          resultArray[i][j - 1] = {rowkey: point.rowkey + vec[0] * j , columnkey: point.columnkey + vec[1] * j}
-        }
-      }
-    }
-    return resultArray
-  }
-  const changeBoard = (point ={},changeArrays = []) => {
-    changeArrays.map((usearray) => {
-      if (usearray.length > 0) {
-        return usearray.map((changepoint) => addchess(point.value, point.owner, true, changepoint.rowkey, changepoint.columnkey))
-      }
-      else 
-      return []
-    })
-  }
-  const endturn = (list = []) => {
-    if (list.length >= 63) {
-      endgame("No Player", "No Player")
-    }
-    if (info.player === "player1") {
-      changeplayer("player2")
-    }
-    else {
-      changeplayer("player1")
-    }
-
-  }
-  const clear = () => {
-    begingame("player1")
-    beginboard(8,8)
-    clearlist()
-  }
-  return (
-      <div>
+  clear = () => {
+		this.setState({
+			history: [{
+				squares : Array(8).fill(Array(8).fill({value:"", owner:"", lock: false})), // construct 3* 3 squares 
+				player1chess:  0,
+				player2chess:  0,
+				nowplayer: "player1"
+			}],
+			gameinfo:{
+				gamename: "Othello",
+				gamestate: "Game Begin",
+				player1: "Tom",
+				player2: "Jerry",
+				winner: "",
+				loser:"",
+				turns: 0,
+				actionlists:[],
+			},
+		})}
+	jumpto = (step) => {
+		this.setState({
+			history: this.state.history.slice(0,step + 1),
+			gameinfo: {
+				...this.state.gameinfo,
+				turns: step,
+				actionlists: this.state.gameinfo.actionlists.slice(0, step + 1),
+				gamestate: "Game Playing"
+			}}
+		)
+	}
+  render() {
+		const history = this.state.history
+		const info = this.state.gameinfo
+		const current = history[info.turns]
+		const steps = history.map((_element,step) => {
+			const libotton = step ?
+			`Go to move # ${step}` :
+			`Go to Start`
+			return (
+				<li key={step}>
+				<input type="bottom" value={libotton} onClick={() => this.jumpto(step)} />
+				</li>
+			)
+		})
+		const showgamestate = (info,current) => {
+			if (info.gamestate === "Game End") {
+				if (info.winner !== "No Winner") {
+					return `Winner is ${info[info.winner]}, Loser is ${info[info.loser]}`
+				}
+				else {
+					return `The Ｇame ended in a tie.`
+				}
+			}
+		else {
+			return `${info[current.nowplayer]} ,  Please push your Chess`
+		}
+		}
+		return (
+			<div>
         <Board 
-          Squares= {squares} 
+          Squares= {current.squares} 
           className='board' 
           change={(rowskey, columnkey) => {
-            return (Clickchange(rowskey, columnkey));
+            return (this.change(rowskey, columnkey));
           }}
         />
-        <div className="game-info" >
-          {(info.gamestate === "Game End") ? <p>Winner is {info.winner}</p> : <p>NowPlayer is {info.player}</p> }
+				<div className="game-info" >
+					<p>{showgamestate(info,current)}</p>
+					<ol>{steps}</ol>
         </div>
         <div className="game-bottons">
-          <input type="button" value="New Game" onClick={clear} />
+          <input type="button" value="New Game" onClick={this.clear} />
         </div>
-      </div>
-    )
+			</div>
+			)
+		}
 }
 
+const addNewChess = (ProcessObject = {}) => {
+	let chess = ProcessObject.chess
+	ProcessObject.actionlists = addChessToLists(chess,ProcessObject.actionlists)
+	ProcessObject.squares = setChessToSquares(chess,ProcessObject.squares)
+	return ProcessObject
+}
+const organizeBoard = (ProcessObject = {}) => {
+	let chess = ProcessObject.chess
+	let squares = ProcessObject.squares
+	let player = chess.owner
+	//caculate the array to change chess	and flatten 2-dimension-array to 1-dimension-array
+	const changeArrays = calculationArrays(chess, squares).reduce((accumulator,currentValue)=> accumulator.concat(currentValue),[])
+	let changenumber = changeArrays.length
+	//change chess by array
+	if (changenumber > 0){
+		ProcessObject.squares = changeArrays.reduce((presquares,nowchess) => setChessToSquares(nowchess,presquares),squares)
+	}
+	//re-caculate the number of player's chess
+	if (player === "player1") {
+		ProcessObject.player1chess += changenumber + 1
+		ProcessObject.player2chess -= changenumber
+	}
+	else {
+		ProcessObject.player1chess -= changenumber
+		ProcessObject.player2chess += changenumber + 1
+	}
+	return ProcessObject
+}
+const JudgeGame = (ProcessObject = {}) => {
+	let player1chess = ProcessObject.player1chess
+	let player2chess = ProcessObject.player2chess
+	if ( /*(player1chess === 0) || (player2chess === 0) || */(player1chess + player2chess >= 64) ) {
+		ProcessObject.gamestate = "Game End"
+	}
+	else {
+		ProcessObject.gamestate = "Game Playing"
+	}
+	return ProcessObject
+}
 // ========================================
 
 
 
-Othelloform.propTypes = {
+OthelloGame.propTypes = {
   squares: PropTypes.array,
   list: PropTypes.array,
   info: PropTypes.object,
