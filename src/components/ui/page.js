@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import Board from './Board'
-import '../App.css'
+import '../../stylesheets/page.css'
 
 
 export 	class  GamePage extends React.Component {
@@ -80,7 +80,7 @@ export 	class  GamePage extends React.Component {
 				<p></p>
 			}
 			return (
-				<div>
+				<section className="game" >
 					<div className="game-board">
 						<h1>{info.gamename}</h1>
 						<h2>{showgamestate(info,current)}</h2>
@@ -95,11 +95,11 @@ export 	class  GamePage extends React.Component {
 					{showsavebottom(info)}
 					<ol>{steps}</ol>
 				</div>
-				<div className="game-bottons">
+				<div className="game-localstore">
 					<h2>Local Save</h2>
 					{showlocalstore(localstore)}
 					</div>
-				</div>
+				</section>
 				)
 			}
 		}

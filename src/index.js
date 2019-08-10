@@ -6,7 +6,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-
 import * as Pages from './components/menu/pages'
 import { PAGES } from "./consters/pagesconster";
 import { storeFactory } from "./redux/Store";

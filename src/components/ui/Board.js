@@ -2,27 +2,27 @@ import React from 'react'
 import Square from './Square'
 import PropTypes from 'prop-types'
 
-const Row = ({rows , change}) =>
-  {
-    return rows.map((columns , columnkey ) =>
+const Row = ({rows=[] , rowclass='board-row' , change=f=>f}) =>
+  <div className={rowclass} >
+    {rows.map((columns , columnkey ) =>
       <Square 
         className={columns.classname}
         value={columns.value}
         key={columnkey}
         onClick={() => change(columnkey)}
       />
-      );
-  }
-const Board = ({ Squares=[] , className='board', change=f=>f}) =>
-  {
-    return (Squares.length === 0) ?
-    <div>No Board on Here, Please Click the "New Game" Bottom</div> :
-    Squares.map((rows, rowskey) =>
+      )}
+  </div>
+
+const Board = ({ Squares=[] , boardclass='board', change=f=>f}) =>
+  <div className={boardclass}>
+    {Squares.map((rows, rowskey) =>
       <div className="board-row" key={rowskey}>
-        <Row rows={rows} change={(columnkey) => change(rowskey, columnkey)} />
+        <Row rows={rows} key={rowskey} change={(columnkey) => change(rowskey, columnkey)} />
       </div>
-      );
-  };
+    )}
+  </div>
+
 export default Board
 
 Board.propTypes = {
