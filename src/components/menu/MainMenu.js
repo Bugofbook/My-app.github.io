@@ -9,7 +9,6 @@ const selectedStyle = {
     color: "slategray"
 }
 
-
 export const MainMenu = () => 
     <nav className="main-menu">
         <NavLink to="/" >
