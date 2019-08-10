@@ -40,6 +40,7 @@ export 	class  GamePage extends React.Component {
 		const history = this.state.history
 		const info = this.state.gameinfo
 		const current = history[info.turns]
+		const localstore = this.props.localstore
 		const steps = history.map((_element,step) => {
 			const libotton = step ?
 			`${info[info.actionlists[step - 1].owner]} Push chess to ( ${info.actionlists[step - 1].rowskey + 1},${info.actionlists[step - 1].columnskey + 1} )` :
@@ -63,7 +64,6 @@ export 	class  GamePage extends React.Component {
 					return `${info[current.nowplayer]} ,  Please push your Chess`
 				}
 			}
-			const localstore = this.props.localstore
 			const showlocalstore = (store) =>{
 				if (store.length === 0)
 					return <p>No Local Save</p>
@@ -81,24 +81,24 @@ export 	class  GamePage extends React.Component {
 			}
 			return (
 				<div>
-				<div>
-				<h1>{info.gamename}</h1>
-				<h2>{showgamestate(info,current)}</h2>
-				<Board 
-				Squares= {current.squares} 
-				className='board' 
-				change={(rowskey, columnskey) => this.mainchange(rowskey, columnskey)}
-				/>
+					<div className="game-board">
+						<h1>{info.gamename}</h1>
+						<h2>{showgamestate(info,current)}</h2>
+						<Board 
+							Squares= {current.squares} 
+							className='board' 
+							change={(rowskey, columnskey) => this.mainchange(rowskey, columnskey)}
+						/>
 				</div>
-					<div className="game-info" >
-						<h2>Game Step</h2>
-						{showsavebottom(info)}
-						<ol>{steps}</ol>
+				<div className="game-info" >
+					<h2>Game Step</h2>
+					{showsavebottom(info)}
+					<ol>{steps}</ol>
 				</div>
 				<div className="game-bottons">
-				<h2>Local Save</h2>
+					<h2>Local Save</h2>
 					{showlocalstore(localstore)}
-				</div>
+					</div>
 				</div>
 				)
 			}

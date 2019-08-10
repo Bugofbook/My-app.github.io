@@ -25,5 +25,5 @@ const HOCforconnect = (component, gamename) => {
 		)(component)
 }
 
-export const TioTeoTicGame = HOCforconnect(TioTeoTicForm ,"TioTeoTic")
-export const OthelloGame = HOCforconnect(OthelloForm ,"Othello")
+export const TioTeoTicGame = HOCforconnect(TioTeoTicForm, "TioTeoTic")
+export const OthelloGame = HOCforconnect(OthelloForm,"Othello")

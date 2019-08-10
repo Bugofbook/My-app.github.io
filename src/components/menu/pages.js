@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
 import { OthelloGame, TioTeoTicGame } from "../contain/contain";
-
+import { OthelloInitialData, TicTacToeInitialData } from "./initialstatedata";
+import { PAGES } from "../../consters/pagesconster";
 
 const PageTemplate = ({children}) =>
     <div className="page">
@@ -16,60 +17,24 @@ export const Home = () =>
     <section className="home" >
         <hi>[首頁]</hi>
         <nav>
-            <Link to="TicTacToe">[井字棋]</Link>
-            <Link to="Othello">[黑白棋]</Link>
+            {// Use conster of Pages to map Home Page
+                PAGES.map((page) => {
+                return <Link to ={page.id} >{`[${page.zh_name}]`}</Link>
+            })}
         </nav>
     </section>
 
-    const TicTacToeinitialstate ={
-        history: [{
-            squares : Array(3).fill(Array(3).fill({value:"", owner:"", lock: false})), // construct 3* 3 squares 
-            showlists : [],
-            nowplayer: "player1"
-        }],
-        gameinfo:{
-            gamename: "TioTeoTic",
-            gamestate: "Game Begin",
-            player1: "Tom",
-            player2: "Jerry",
-            winner: "",
-            loser:"",
-            turns: 0,
-            actionlists:[],
-        },
-    }
-
-
-export const TicTacToe = () =>
+    export const TicTacToe = () =>
     <PageTemplate>
         <section className="game" >
-            <TioTeoTicGame initialstate = {TicTacToeinitialstate} />
+            <TioTeoTicGame initialstate = {TicTacToeInitialData} />
         </section>
     </PageTemplate>
-
-    const othelloinitialstate ={
-        history: [{
-                squares : Array(8).fill(Array(8).fill({value:"", owner:"", lock: false})), // construct 8* 8 squares 
-                player1chess:  0,
-                player2chess:  0,
-                nowplayer: "player1"
-        }],
-        gameinfo:{
-                gamename: "Othello",
-                gamestate: "Game Begin",
-                player1: "Tom",
-                player2: "Jerry",
-                winner: "",
-                loser:"",
-                turns: 0,
-                actionlists:[],
-        },
-    }
 
 export const Othello = () =>
     <PageTemplate>
     <section className="game" >
-        <OthelloGame initialstate = {othelloinitialstate}/>
+        <OthelloGame initialstate = {OthelloInitialData}/>
     </section>
     </PageTemplate>
 
