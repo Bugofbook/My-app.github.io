@@ -26,16 +26,12 @@ export const Home = () =>
 
     export const TicTacToe = () =>
     <PageTemplate>
-        <section className="game" >
             <TioTeoTicGame initialstate = {TicTacToeInitialData} />
-        </section>
     </PageTemplate>
 
 export const Othello = () =>
     <PageTemplate>
-    <section className="game" >
         <OthelloGame initialstate = {OthelloInitialData}/>
-    </section>
     </PageTemplate>
 
 export const Whoops404 = ({ location }) =>

@@ -11,20 +11,6 @@ section > section {
   margin: 1em;
 }
 
-section.game {
-  flex-grow: 1;
-  margin: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  h1 {
-    font-size: 3em;
-    color: slategray;
-  }
-
-}
-
 div.home {
   height: 100%;
   display: flex;
