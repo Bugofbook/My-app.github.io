@@ -19,25 +19,3 @@ nav.main-menu {
   }
 
 }
-
-div.about-menu {
-  width: 100%;
-  list-style-type: none;
-  display: flex;
-  background-color: slategray;
-
-  > li {
-
-    flex-grow: 1;
-
-    > a {
-      display: block;
-      width: calc(100% - 1em);
-      text-align: center;
-      text-decoration: none;
-      color: ghostwhite;
-      padding: .5em;
-    }
-
-  }
-}

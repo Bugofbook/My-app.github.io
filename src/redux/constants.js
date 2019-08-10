@@ -24,3 +24,12 @@ export const STYLE = {
 	SET_STYLE: "SET_STYLE",
 	CREATE_STYLE: "CREATE_STYLE",
 }
+
+export const GAMEDATA = {
+	ADD_GAMEDATA: "ADD_GAMEDATA",
+	DEL_GAMEDATA: "DEL_GAMEDATA",
+}
+
+export const PLAYERDATA = {
+	RE_NAME:"RE_NAME",
+}

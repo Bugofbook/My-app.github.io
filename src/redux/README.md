@@ -18,3 +18,18 @@ defination type of actions for reduces of Redux and action of Redux
 
 constrcte store
 
+store:{
+	playerdata:{
+		player1name: ""
+		player2name: ""
+	}
+	gamedata:[
+		{
+			id:
+			gamename:""
+			date:""
+			list:[....]
+		},
+		...,
+	]
+}

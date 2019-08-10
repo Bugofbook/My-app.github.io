@@ -1,40 +1,113 @@
-import { connect } from 'react-redux';
-import { AddList, ClearList } from "../../redux/actions/ListAction";
-import { SetChess, CreateSquares } from "../../redux/actions/SquareAction";
-import { ChangePlayer, SetEndstate, SetBeginstate } from "../../redux/actions/InfoAction";
-import { Othelloform } from "../ui/Othello";
+import { compose } from 'redux';
+ import { GamePage } from "../ui/page";
+import { SquaresDeepCopy ,  addChessToLists, setChessToSquares} from "../../functions/gamebasics";
+import { calculationArrays } from "../../functions/catchgame";
 
-const mapStateToProps = state => ({
-	squares: state.Squares,
-	list: state.Lists,
-	info: state.Info
-})
+export class OthelloForm extends GamePage {
+	mainchange = (rowskey, columnskey) => {
+		const history = this.state.history.slice(0, this.state.gameinfo.turns + 1);
+		const current = history[history.length - 1];
+		const player = current.nowplayer
+		const info = this.state.gameinfo
+		let newsquares = SquaresDeepCopy(current.squares);
+		// check broad is lock
+    if (newsquares[rowskey][columnskey].lock === true || info.gamestate === "Game End")
+			return
+		// construct new chess
+		const  newchess = {
+			rowskey: rowskey,
+      columnskey: columnskey,
+      value: (player === "player1") ? "O" : "X",
+			owner: player,
+			lock: true,
+		}
+		// use compose function( from redux,js) to processing state, and get new state
+		let processobject = compose(
+			JudgeGame,
+			organizeBoard,
+			addNewChess,
+	)({
+		squares: newsquares,
+		player1chess: current.player1chess,
+		player2chess: current.player2chess,
+		actionlists: info.actionlists.slice(),
+		chess: newchess,
+		gamestate: info.gamestate,
+	})
+		// set state
+		let winner = ""
+		let loser = ""
+		if (processobject.gamestate === "Game End") {
+			if (processobject.player1chess > processobject.player2chess) {
+				winner = "player1"
+				loser = "player2"
+			}
+			else if (processobject.player2chess > processobject.player1chess) {
+				winner = "player2"
+				loser = "player1"
+			}
+			else {
+				winner = "No Winner"
+				loser = "No Loser"
+			}}
+		this.setState({
+			history: history.concat([
+				{
+					squares: processobject.squares,
+					player1chess:  processobject.player1chess,
+					player2chess:  processobject.player2chess,	
+					nowplayer: (player === "player1") ? "player2" : "player1"
+				}]),
+			gameinfo: {
+				...info,
+				actionlists: processobject.actionlists,
+				turns: info.turns + 1,
+				gamestate: processobject.gamestate,
+				winner: winner,
+				loser: loser,
+			},
+		})
+}
+}
 
-const mapDispatchToProps = dispatch => ({
-	addlist(owner, value, row,column) {
-		dispatch(AddList(owner, value, row,column))
-	},
-	addchess(value, owner, lock, row,column) {
-		dispatch(SetChess(value, owner, lock, row,column))
-	},
-	changeplayer(player) {
-		dispatch(ChangePlayer(player))
-	},
-	endgame(winner, loser) {
-		dispatch(SetEndstate(winner, loser))
-	},
-	begingame(player) {
-		dispatch(SetBeginstate(player))
-	},
-	beginboard(row, column) {
-		dispatch(CreateSquares(row, column))
-	},
-	clearlist() {
-		dispatch(ClearList())
+//--------------------------------------
+
+const addNewChess = (ProcessObject = {}) => {
+	let chess = ProcessObject.chess
+	ProcessObject.actionlists = addChessToLists(chess,ProcessObject.actionlists)
+	ProcessObject.squares = setChessToSquares(chess,ProcessObject.squares)
+	return ProcessObject
+}
+const organizeBoard = (ProcessObject = {}) => {
+	let chess = ProcessObject.chess
+	let squares = ProcessObject.squares
+	let player = chess.owner
+	//caculate the array to change chess	and flatten 2-dimension-array to 1-dimension-array
+	const changeArrays = calculationArrays(chess, squares).reduce((accumulator,currentValue)=> accumulator.concat(currentValue),[])
+	let changenumber = changeArrays.length
+	//change chess by array
+	if (changenumber > 0){
+		ProcessObject.squares = changeArrays.reduce((presquares,nowchess) => setChessToSquares(nowchess,presquares),squares)
 	}
-})
-
-export const OthelloGame = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Othelloform)
+	//re-caculate the number of player's chess
+	if (player === "player1") {
+		ProcessObject.player1chess += changenumber + 1
+		ProcessObject.player2chess -= changenumber
+	}
+	else {
+		ProcessObject.player1chess -= changenumber
+		ProcessObject.player2chess += changenumber + 1
+	}
+	return ProcessObject
+}
+const JudgeGame = (ProcessObject = {}) => {
+	let player1chess = ProcessObject.player1chess
+	let player2chess = ProcessObject.player2chess
+	if ( /*(player1chess === 0) || (player2chess === 0) || */(player1chess + player2chess >= 64) ) {
+		ProcessObject.gamestate = "Game End"
+	}
+	else {
+		ProcessObject.gamestate = "Game Playing"
+	}
+	return ProcessObject
+}

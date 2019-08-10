@@ -6,36 +6,26 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import {
-  Home,
-  TicTacToe,
-  Othello,
-  Whoops404
-} from './components/menu/pages'
+
+import * as Pages from './components/menu/pages'
+import { PAGES } from "./consters/pagesconster";
 import { storeFactory } from "./redux/Store";
 
 window.React = React
 
-const store = storeFactory({
-  Squares: Array(3).fill(Array(3).fill({value:"", owner:"", lock: false})),
-  List: [],
-  Info: {
-    gamestate: "Game Begin",
-    player: "player1",
-    winner: "",
-    loser: "",
-  }
-})
+const store = storeFactory()
 
 render(
   <Provider store={store} >
   <HashRouter>
   <div className="main" >
   <Switch>
-  <Route exact path="/" component={Home} />
-  <Route path="/TicTacToe" component={TicTacToe} />
-  <Route path="/Othello" component={Othello} />
-  <Route component={Whoops404} />
+  <Route exact path="/" component={Pages["Home"]} />
+  {// Use conster of Pages to map Route
+    PAGES.map((page) => {
+    return <Route path={page.router} component={Pages[page.id]} />
+  })}
+  <Route component={Pages.Whoops404} />
   </Switch>
   </div>
   </HashRouter>

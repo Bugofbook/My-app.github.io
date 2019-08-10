@@ -2,14 +2,11 @@
 
 defination all action for store of Redux
 
-## InfoAction.js
+## GameDataAction.js
 
-defination action for reducer of Lnfo
+defination action for reducer of GameDate
 
-## listAction.js
+## PlayerDataAction.js
 
-defination action for reducer of List 
+defination action for reducer of PlayerData 
 
-## SquaresAction.js
-
-defination action for reducer of Squares

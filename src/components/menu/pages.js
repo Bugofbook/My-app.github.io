@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
-import { App} from '../contain/tioteotic'
-import { OthelloGame } from "../contain/othello";
+import { OthelloGame, TioTeoTicGame } from "../contain/contain";
+import { OthelloInitialData, TicTacToeInitialData } from "./initialstatedata";
+import { PAGES } from "../../consters/pagesconster";
 
 const PageTemplate = ({children}) =>
     <div className="page">
@@ -16,22 +17,24 @@ export const Home = () =>
     <section className="home" >
         <hi>[首頁]</hi>
         <nav>
-            <Link to="TicTacToe">[井字棋]</Link>
-            <Link to="Othello">[黑白棋]</Link>
+            {// Use conster of Pages to map Home Page
+                PAGES.map((page) => {
+                return <Link to ={page.id} >{`[${page.zh_name}]`}</Link>
+            })}
         </nav>
     </section>
 
-export const TicTacToe = () =>
+    export const TicTacToe = () =>
     <PageTemplate>
         <section className="game" >
-            <App />
+            <TioTeoTicGame initialstate = {TicTacToeInitialData} />
         </section>
     </PageTemplate>
 
 export const Othello = () =>
     <PageTemplate>
     <section className="game" >
-        <OthelloGame />
+        <OthelloGame initialstate = {OthelloInitialData}/>
     </section>
     </PageTemplate>
 
