@@ -17,7 +17,7 @@ export class OthelloForm extends GamePage {
 		const  newchess = {
 			rowskey: rowskey,
       columnskey: columnskey,
-      value: (player === "player1") ? "O" : "X",
+      value: (player === "player1") ? "BlackChess" : "WhiteChess",
 			owner: player,
 			lock: true,
 		}

@@ -7,12 +7,21 @@ import {
   Switch
 } from 'react-router-dom'
 import * as Pages from './components/menu/pages'
-import { PAGES } from "./consters/pagesconster";
+import { PAGES } from "./data/pagesconster";
 import { storeFactory } from "./redux/Store";
 
 window.React = React
 
-const store = storeFactory()
+const initialDate ={
+	gameDatas:[],
+	playerData:{
+		player1: "Tom",
+		player2: "Jerry",
+	},
+}
+
+
+const store = storeFactory(initialDate)
 
 render(
   <Provider store={store} >
@@ -21,8 +30,8 @@ render(
   <Switch>
   <Route exact path="/" component={Pages["Home"]} />
   {// Use conster of Pages to map Route
-    PAGES.map((page) => {
-    return <Route path={page.router} component={Pages[page.id]} />
+    PAGES.map((page,index) => {
+    return <Route key={index} path={page.router} component={Pages[page.id]} />
   })}
   <Route component={Pages.Whoops404} />
   </Switch>

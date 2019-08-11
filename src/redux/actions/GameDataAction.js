@@ -13,3 +13,8 @@ export const DelGameData = (id) => ({
 	type: GAMEDATA.DEL_GAMEDATA,
 	id,
 })
+
+export const LoadingGameDada = (gameDatas) => ({
+	type: GAMEDATA.LOADING_GAMEDATA,
+	gameDatas,
+})

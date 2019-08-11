@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
-import { PAGES } from "../../consters/pagesconster";
+import { PAGES } from "../../data/pagesconster";
 import '../../stylesheets/menus.scss'
 
 
@@ -15,8 +15,8 @@ export const MainMenu = () =>
             [首頁]
         </NavLink>
         {// Use conster of Pages to map NavLink
-            PAGES.map((page) => {
-            return <NavLink to ={page.router} activeStyle={selectedStyle}>{`[${page.zh_name}]`}</NavLink>
+            PAGES.map((page,index) => {
+            return <NavLink key={index} to ={page.router} activeStyle={selectedStyle}>{`[${page.zh_name}]`}</NavLink>
         })}
     </nav>
 
