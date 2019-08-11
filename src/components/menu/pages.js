@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { MainMenu } from './MainMenu'
 import '../../stylesheets/pages.scss'
-import { OthelloGame, TioTeoTicGame } from "../contain/contain";
-import { OthelloInitialData, TicTacToeInitialData } from "./initialstatedata";
-import { PAGES } from "../../consters/pagesconster";
+import { OthelloGame, TioTeoTicGame, TioTeoTicSpecialGame, GomokuGame,HomePage } from "../contain/contain";
+import { OthelloInitialData, TicTacToeInitialData ,GomokuInitialData ,TicTacToeSpecialInitialData} from "./initialstatedata";
+import { OthelloRule, TicTacToeRule, TicTacToeSpecialRule, GomokuRule } from "../../data/gamerule";
 
 const PageTemplate = ({children}) =>
     <div className="page">
@@ -12,26 +11,31 @@ const PageTemplate = ({children}) =>
         {children}
     </div>
 
-
 export const Home = () =>
-    <section className="home" >
-        <hi>[首頁]</hi>
-        <nav>
-            {// Use conster of Pages to map Home Page
-                PAGES.map((page) => {
-                return <Link to ={page.id} >{`[${page.zh_name}]`}</Link>
-            })}
-        </nav>
-    </section>
+<PageTemplate>
+    <HomePage />
+</PageTemplate>
+
 
     export const TicTacToe = () =>
     <PageTemplate>
-            <TioTeoTicGame initialstate = {TicTacToeInitialData} />
+            <TioTeoTicGame initialstate = {TicTacToeInitialData} gamerule={TicTacToeRule} />
     </PageTemplate>
 
+    export const TicTacToeSpecial = () =>
+    <PageTemplate>
+            <TioTeoTicSpecialGame initialstate = {TicTacToeSpecialInitialData} gamerule={TicTacToeSpecialRule} />
+    </PageTemplate>
+
+    export const Gomoku = () =>
+    <PageTemplate>
+            <GomokuGame initialstate = {GomokuInitialData} gamerule={GomokuRule} />
+    </PageTemplate>
+
+    
 export const Othello = () =>
     <PageTemplate>
-        <OthelloGame initialstate = {OthelloInitialData}/>
+        <OthelloGame initialstate = {OthelloInitialData} gamerule={OthelloRule} />
     </PageTemplate>
 
 export const Whoops404 = ({ location }) =>

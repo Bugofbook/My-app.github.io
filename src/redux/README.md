@@ -23,7 +23,7 @@ store:{
 		player1name: ""
 		player2name: ""
 	}
-	gamedata:[
+	gameDatas:[
 		{
 			id:
 			gamename:""

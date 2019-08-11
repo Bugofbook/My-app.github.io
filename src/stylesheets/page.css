@@ -46,6 +46,11 @@ section.game {
     padding: 0;
     text-align: center;
     width: 34px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  
   }
   .board {
     font-size: 24px;

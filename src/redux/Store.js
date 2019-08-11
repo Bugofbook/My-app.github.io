@@ -4,7 +4,10 @@ import { gameDatas } from "./reducers/GameDataReducer";
 
 const initialDate ={
 	gameDatas:[],
-	playerData:{},
+	playerData:{
+		player1: "Tom1",
+		player2: "Jerry1",
+	},
 }
 
 const logger = store => next => action => {

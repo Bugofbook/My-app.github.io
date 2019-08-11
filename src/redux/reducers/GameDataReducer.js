@@ -20,6 +20,8 @@ export const gameDatas = (state = [] , action) => {
 			return state.concat(gameData([],action))
 		case GAMEDATA.DEL_GAMEDATA:
 			return state.filter((data) => data.id !== action.id)
+		case GAMEDATA.LOADING_GAMEDATA:
+			return action.gameDatas
 		default:
 			return state
 	}
