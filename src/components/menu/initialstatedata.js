@@ -1,4 +1,5 @@
 
+
 export const makeEmptyBoard = (row,column) => Array(row).fill(Array(column).fill({value:"", owner:"", lock: false}))
 
 export const makeGameHistoryObject = (board,objecta = {}) => Object.assign({	nowplayer: "player1"},{squares: board},objecta)
@@ -11,8 +12,6 @@ export const makeGameInfoObject = (gamename) => ({
 	turns: 0,
 	actionlists: [],
 })
-
-//changeArrays = calculationArrays(chess, squares).reduce((accumulator,currentValue)=> accumulator.concat(currentValue),[])
 
 //
 
@@ -38,22 +37,28 @@ export const GomokuInitialData = {
 
 //
 
-export const BoardProcessedChess = (chessarray, Board) => {
-	//return chessarray.reduce((presquares,nowchess) => setChessToSquares(nowchess,presquares),Board)
-	return Board
-	}
 	
-	
-
-const OthelloStartArray = [
-	{ rowskey: 3, columnskey: 3, value:"O",owner:"player1",lock: true},
-	{ rowskey: 3, columnskey: 4, value:"X",owner:"player2",lock: true},
-	{ rowskey: 3, columnskey: 3, value:"X",owner:"player2",lock: true},
-	{ rowskey: 4, columnskey: 4, value:"O",owner:"player1",lock: true}
+let  OthelloStartArray = [
+	{rowskey: 3, columnskey: 3, value: "BlackChess", owner: "player1", lock: true},
+	// {rowskey: 3, columnskey: 4, value: "WhiteChess", owner: "player1", lock: true},
+	// {rowskey: 4, columnskey: 3, value: "WhiteChess", owner: "player1", lock: true},
+	// {rowskey: 4, columnskey: 4, value: "BlackChess", owner: "player1", lock: true}
 ]
 
-const OthelloStartBoard = makeEmptyBoard(8,8)
-const OthelloBoard = BoardProcessedChess(OthelloStartArray,OthelloStartBoard)
+let  OthelloStartBoard = makeEmptyBoard(8,8)
+
+export const setChessToSquareskk = (chess, squares) => {
+	squares[chess.rowskey][chess.columnskey] = {value: chess.value, owner: chess.owner, lock: chess.lock}
+	return squares
+}
+
+
+export const BoardProcessedChess = (chessarray, Board) => {
+	//chessarray.reduce((presquares,nowchess) => setChessToSquareskk(nowchess,presquares),Board)
+	return Board
+	}
+
+let OthelloBoard = BoardProcessedChess(OthelloStartArray,OthelloStartBoard)
 
 
 const OthelloNeedKey = { player1chess:  0,	player2chess:  0 }

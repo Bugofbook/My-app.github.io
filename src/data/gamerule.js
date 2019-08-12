@@ -36,6 +36,7 @@ export const TicTacToeRule =
 		<li>是五子棋的”極簡化版“</li>
 		<li>雙方輪流放子</li>
 		<li>先連成一線者得勝</li>
+		<li>之後也許會把棋盤換成圍棋用棋盤</li>
 		<li>還沒有設定連珠規則或RIF規則，之後會補上功能</li>
 	</React.Fragment>
 

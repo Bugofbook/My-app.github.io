@@ -1,5 +1,5 @@
 import  {CheckSquareValue, setChessToSquares, addChessToLists} from './gamebasics'
-import { compose } from 'redux';
+
 //find max length for connect chesses by specil vextor
 export const FindLength = (VectorX, VectorY) => connectlength => (CurrentPoint , NowSquares) => {
     let contilen = 1
@@ -42,13 +42,6 @@ export const JudgeWinner = length => (CurrentPoint , Squares) =>
 }
 // ============
 
-export const ProcessTioTeoTicSpecial = (ProcessObject) => {
-    return ProcessObject = compose(
-        TTTSJudge,
-        addNewChess,
-        removeOldChess
-    )(ProcessObject)
-}
 // remove the most old chess 
 export const removeOldChess = (ProcessObject = {}) => {
     let squares = ProcessObject.squares
@@ -70,12 +63,14 @@ export const removeOldChess = (ProcessObject = {}) => {
 }
 export const addNewChess = (ProcessObject = {}) => {
     let chess = ProcessObject.chess
+//    console.log(chess)
     ProcessObject.lists = addChessToLists(chess,ProcessObject.lists)
 	ProcessObject.actionlists = addChessToLists(chess,ProcessObject.actionlists)
     ProcessObject.squares = setChessToSquares(chess,ProcessObject.squares)
     return ProcessObject
 }
-export const TTTSJudge = (ProcessObject = {}) => {
-    ProcessObject.gamestate =  (JudgeWinner(3)(ProcessObject.chess,ProcessObject.squares)) ? "Game End" : "Game Playing"
+
+export const ConeectJudge = (length) => (ProcessObject = {}) => {
+    ProcessObject.gamestate =  (JudgeWinner(length)(ProcessObject.chess,ProcessObject.squares)) ? "Game End" : "Game Playing"
     return ProcessObject
 }
