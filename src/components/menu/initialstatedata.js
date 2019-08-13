@@ -53,7 +53,7 @@ let  OthelloStartBoard = makeEmptyBoard(8,8)
 
 let OthelloBoard = BoardProcessedChess(OthelloStartArray,OthelloStartBoard)
 
-const OthelloNeedKey = { player1chess:  0,	player2chess:  0 }
+const OthelloNeedKey = { player1chess:  2,	player2chess:  2 }
 
 export const OthelloInitialData = {
 	history: [makeGameHistoryObject(OthelloBoard,OthelloNeedKey)],
