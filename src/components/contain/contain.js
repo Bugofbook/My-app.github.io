@@ -1,7 +1,7 @@
 import {connect } from 'react-redux';
 import { AddGameData, DelGameData, LoadingGameDada } from "../../redux/actions/GameDataAction";
 import { ChangePlayerName } from "../../redux/actions/PlayerDataAction";
-import { TioTeoTicForm, TioTeoTicSpecialForm } from "./TioTeoTic";
+import { TioTeoTicForm, TioTeoTicSpecialForm, GomokuForm } from "./TioTeoTic";
 import { OthelloForm } from "./othello";
 import { HomeForm } from "./home";
 
@@ -34,7 +34,7 @@ const HOCforconnect = (component, gamename) => {
 
 export const TioTeoTicSpecialGame = HOCforconnect(TioTeoTicSpecialForm, "TioTeoTicSpecial")
 export const TioTeoTicGame = HOCforconnect(TioTeoTicForm, "TioTeoTic")
-export const GomokuGame = HOCforconnect(TioTeoTicForm, "Gomoku")
+export const GomokuGame = HOCforconnect(GomokuForm, "Gomoku")
 export const OthelloGame = HOCforconnect(OthelloForm,"Othello")
 
 export const HomePage = connect(

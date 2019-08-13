@@ -1,4 +1,4 @@
-import { React} from 'react';
+import React from 'react'
 
 export const PAGES = [
 	{
@@ -17,13 +17,13 @@ export const PAGES = [
 		zh_name: "黑白棋"
 	}
 ]
-export const TicTacToeRule = () => 
+export const TicTacToeRule =  
 	<React.Fragment>
 		<li>雙方輪流放子</li>
 		<li>先連成一線者得勝</li>
 	</React.Fragment>
 
-	export const TicTacToeSpecialRule = () => 
+	export const TicTacToeSpecialRule = 
 	<React.Fragment>
 		<li>是井字棋的變化版</li>
 		<li>雙方輪流放子</li>
@@ -31,20 +31,20 @@ export const TicTacToeRule = () =>
 		<li>當現在盤面上有六顆棋子時。在第七個棋子落下前，會先移出最早放的棋子，再放下第七顆</li>
 	</React.Fragment>
 
-	export const GomokuRule = () => 
+	export const GomokuRule = 
 	<React.Fragment>
 		<li>是五子棋的”極簡化版“</li>
 		<li>雙方輪流放子</li>
 		<li>先連成一線者得勝</li>
-		<li>沒有設定連珠規則或RIF規則(因為多寫程式很麻煩)</li>
+		<li>之後也許會把棋盤換成圍棋用棋盤</li>
+		<li>還沒有設定連珠規則或RIF規則，之後會補上功能</li>
 	</React.Fragment>
 
 
-	export const OthelloRule = () => 
+	export const OthelloRule = 
 	<React.Fragment>
 		<li>是奧賽羅棋的”極簡化版“</li>
 		<li>雙方輪流放子</li>
 		<li>當棋盤上都放滿棋子時，棋子多的玩家得勝</li>
-		<li>沒有起始棋子(因為個人因素沒能設定棋子)</li>
-		<li>沒有限制下棋子的地方(因為多寫程式很麻煩)</li>
+		<li>還沒有限制下棋子的地方，之後會補上功能</li>
 	</React.Fragment>

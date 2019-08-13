@@ -83,7 +83,7 @@ const organizeBoard = (ProcessObject = {}) => {
 	let squares = ProcessObject.squares
 	let player = chess.owner
 	//caculate the array to change chess	and flatten 2-dimension-array to 1-dimension-array
-	const changeArrays = calculationArrays(chess, squares).reduce((accumulator,currentValue)=> accumulator.concat(currentValue),[])
+	let changeArrays = calculationArrays(chess, squares).reduce((accumulator,currentValue)=> accumulator.concat(currentValue),[])
 	let changenumber = changeArrays.length
 	//change chess by array
 	if (changenumber > 0){
@@ -100,10 +100,11 @@ const organizeBoard = (ProcessObject = {}) => {
 	}
 	return ProcessObject
 }
+
 const JudgeGame = (ProcessObject = {}) => {
 	let player1chess = ProcessObject.player1chess
 	let player2chess = ProcessObject.player2chess
-	if ( /*(player1chess === 0) || (player2chess === 0) || */(player1chess + player2chess >= 64) ) {
+	if ( (player1chess === 0) || (player2chess === 0) || (player1chess + player2chess >= 64) ) {
 		ProcessObject.gamestate = "Game End"
 	}
 	else {

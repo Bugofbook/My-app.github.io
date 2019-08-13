@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import Board from './Board'
+import { GameLocalStore } from "./Gamelocalstore";
+import { GameInFo } from "./Gameinfo";
+import { GameMain } from "./GameMain";
 import '../../stylesheets/page.css'
 
 
@@ -37,76 +39,31 @@ export 	class  GamePage extends React.Component {
 		gamedata.chesshistory.reduce((_previousValue,action,index) => window.setTimeout(( () => this.mainchange(action.rowskey, action.columnskey) ), 1000 * index + 1000), 0)
 	}
 	render() {
-		const history = this.state.history
-		const info = this.state.gameinfo
+		const { history, gameinfo: info} = this.state
+//		const info = this.state.gameinfo
+		const {players, gamerule} = this.props
 		const current = history[info.turns]
-		const localstore = this.props.localstore
-		const players = this.props.players
-		const steps = history.map((_element,step) => {
-			const libotton = step ?
-			`${players[info.actionlists[step - 1].owner]} Push chess to ( ${info.actionlists[step - 1].rowskey + 1},${info.actionlists[step - 1].columnskey + 1} )` :
-			`Go to Start`
-			return (
-				<li key={step}>
-				<input type="bottom" value={libotton} onClick={() => this.jumpto(step)} readOnly/>
-				</li>
-				)
-			})
-			const showgamestate = (info,current) => {
-				if (info.gamestate === "Game End") {
-					if (info.winner !== "No Winner") {
-						return `Winner is ${players[info.winner]}, Loser is ${players[info.loser]}`
-					}
-					else {
-						return `The Ｇame ended in a tie.`
-					}
-				}
-				else {
-					return `${players[current.nowplayer]} ,  Please push your Chess`
-				}
-			}
-			const showlocalstore = (store) =>{
-				if (store.length === 0)
-					return <p>No Local Save</p>
-				return <ol>{store.map((gamedata,index) => 
-					<li key={index}>
-					<input type="bottom" value="X" style={{width: 15 }}  onClick={() => this.deldata(gamedata.id)} />
-					<input type="bottom" value={`Time: ${gamedata.date.toLocaleString('zh-cn')} `} onClick={() => this.loadingdata(gamedata)} />
-					</li>
-				)}</ol>
-			}
-			const showsavebottom = (info) => {
-				return (info.gamestate === "Game End") ?
-				<input type="bottom" value="Save Result" onClick={() => this.adddata(info.gamename,info.actionlists)} /> :
-				<p></p>
-			}
 			return (
 				<section className="game" >
-					<div className="game-board">
-						<h1>{info.gamename}</h1>
-						<h2>{showgamestate(info,current)}</h2>
-						<Board 
-							Squares= {current.squares} 
-							className='board' 
-							change={(rowskey, columnskey) => this.mainchange(rowskey, columnskey)}
+					<GameMain
+						current={current}
+						info= {info} 
+						players={players} 
+						gamerule={gamerule} 
+						mainchange={(rowskey, columnskey) => this.mainchange(rowskey, columnskey)}
 						/>
-						<h2>本遊戲的說明</h2>
-						<ol>{this.props.gamerule}</ol>
-				</div>
-				<div className="game-info" >
-					<h2>{`遊戲歷程`/*Game Step*/}</h2>
-					<p>{`點擊按鍵，可以跳到特定的狀態。`/*there are all steps in the game , click bottom for  jumping to special state of Game*/}</p>
-					<p>{`遊戲結束時，可以把記錄存在本機。`/*When game is end , you can save data to local*/}</p>
-					{showsavebottom(info)}
-					<ol>{steps}</ol>
-				</div>
-				<div className="game-localstore">
-					<h2>本機存檔{/*Local Save*/}</h2>
-					<p>這裡是本機存檔的列表</p>
-					<p>按下時間的按鍵，就可以把存檔的記錄再表演一次</p>
-					<p>按下"Ｘ"按鍵，就可以把對應的存檔刪除</p>
-					{showlocalstore(localstore)}
-					</div>
+					<GameInFo 
+						players={players} 
+						history={history} 
+						info={info} 
+						adddata={()=>this.adddata(info.gamename,info.actionlists)} 
+						jumpto={(step) => this.jumpto(step)}
+					/>
+					<GameLocalStore
+						store={this.props.localstore}
+						deldata={(id) => this.deldata(id)}
+						loadingdata= {(gamedata) => this.loadingdata(gamedata)}
+					/>
 				</section>
 				)
 			}
