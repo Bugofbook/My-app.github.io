@@ -5,7 +5,7 @@ Array(9).fill(1).map((_k,i) => [Math.floor( i / 3) - 1 ,(i % 3) - 1]).map( vec =
 //call back array of chess which can catch 
  const checkLine  = (vec = []) => (maxlength = 1 , interval = 1) => (chess , squares) => {
 	let kkkk = takeLineChessFromSquares(vec)(maxlength, interval)(chess , squares)
-	return checkCycleChessFromArray(kkkk,chess,[])
+	return getCatchedChessFormArray(kkkk,chess,[])
 }
 
 // take Array of chess from Square
@@ -27,7 +27,7 @@ const takeLineChessFromSquares = (Vector = []) => (maxlength = 1 , interval = 1)
 	return resultarray
 }
 //find result of catch-game from Array of chess
-const checkCycleChessFromArray = (checkarray,startchess,resultarray = []) => {
+const getCatchedChessFormArray = (checkarray,startchess,resultarray = []) => {
 	if ( checkarray.length === 0) {  // No square need check , return empty result
 		return []
 	}
@@ -39,7 +39,7 @@ const checkCycleChessFromArray = (checkarray,startchess,resultarray = []) => {
 		return []
 	}
 	else if (oldchess.value !==  startchess.value  ) { //No find same chess. continus find
-		return checkCycleChessFromArray(otherchess,startchess,resultarray.concat({...startchess, rowskey: oldchess.rowskey, columnskey: oldchess.columnskey}))
+		return getCatchedChessFormArray(otherchess,startchess,resultarray.concat({...startchess, rowskey: oldchess.rowskey, columnskey: oldchess.columnskey}))
 	}
 }
 
