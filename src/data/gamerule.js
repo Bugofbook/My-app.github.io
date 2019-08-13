@@ -46,6 +46,5 @@ export const TicTacToeRule =
 		<li>是奧賽羅棋的”極簡化版“</li>
 		<li>雙方輪流放子</li>
 		<li>當棋盤上都放滿棋子時，棋子多的玩家得勝</li>
-		<li>還沒有設定起始棋子，之後會補上功能</li>
 		<li>還沒有限制下棋子的地方，之後會補上功能</li>
 	</React.Fragment>
