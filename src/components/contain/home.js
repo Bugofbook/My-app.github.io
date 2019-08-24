@@ -18,8 +18,8 @@ export 	class  HomeForm extends React.Component {
 		.catch(error => console.log('There has been a problem with your fetch operation: ', error.message))
 	}
 	processdata(data) {
-		this.movegamedata(data.player1,data.player2)
-		this.moveplayerdata(data.gamedate)
+		this.movegamedata(data.gamedate)
+		this.moveplayerdata(data.player1,data.player2)
 	}
 	clear() {
 		this.movegamedata([])
@@ -34,7 +34,9 @@ export 	class  HomeForm extends React.Component {
 						<div>{`遊戲玩家２：${this.props.playerdata.player2}`}</div>
 					</div>
 					<div>
-						<h1>讀取伺服器記錄，但是還沒架設伺服器就是了</h1>
+						<h1>讀取伺服器記錄</h1>
+						<p>使用rails架設簡單的後端，檔案：https://github.com/Bugofbook/apirailsmyapp</p>
+						<p>暫時找不到空間放rails，請手動在本地架設伺服器</p>
 						<div>
 						<input type="buttom" value="回復初始" onClick={() => this.clear()} />						
 						<input type="buttom" value="讀取存檔１" onClick={() => this.loadingonlinedata('//localhost:4000/games/1.json')} />
