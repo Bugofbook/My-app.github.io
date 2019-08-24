@@ -15,10 +15,11 @@ export 	class  HomeForm extends React.Component {
 		fetch(url)
 		.then(response => response.json())
 		.then(onlinedata => this.processdata(onlinedata))
+		.catch(error => console.log('There has been a problem with your fetch operation: ', error.message))
 	}
 	processdata(data) {
-		this.movegamedata(data.playerdata.player1,data.playerdata.player2)
-		this.moveplayerdata(data.gameDatas)
+		this.movegamedata(data.player1,data.player2)
+		this.moveplayerdata(data.gamedate)
 	}
 	clear() {
 		this.movegamedata([])
@@ -36,8 +37,8 @@ export 	class  HomeForm extends React.Component {
 						<h1>讀取伺服器記錄，但是還沒架設伺服器就是了</h1>
 						<div>
 						<input type="buttom" value="回復初始" onClick={() => this.clear()} />						
-						<input type="buttom" value="讀取存檔１" onClick={() => this.loadingonlinedata("url1")} />
-						<input type="buttom" value="讀取存檔２" onClick={() => this.loadingonlinedata("url2")} />
+						<input type="buttom" value="讀取存檔１" onClick={() => this.loadingonlinedata('//localhost:4000/games/1.json')} />
+						<input type="buttom" value="讀取存檔２" onClick={() => this.loadingonlinedata('//localhost:4000/games/2.json')} />
 						</div>
 						<p>如果沒有載入預設的遊戲玩家的名稱，請先按一下“回復初始”按鍵來強制載入遊戲玩家的名稱</p>
 					</div>
